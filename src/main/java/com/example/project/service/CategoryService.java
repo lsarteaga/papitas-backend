@@ -7,6 +7,7 @@ import com.example.project.utility.Slug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -16,6 +17,11 @@ public class CategoryService {
 
     public Category saveCategory(Category category) {
         category.setSlug(Slug.makeSlug(category.getName()));
+        category.setCreatedAt(new Date());
+        category.setUpdatedAt(new Date());
+        if (category.getImage().isEmpty()) {
+            category.setImage("https://www.pexels.com/photo/abstract-art-cooking-cutlery-262896/");
+        }
         return categoryRepository.save(category);
     }
 
@@ -34,6 +40,7 @@ public class CategoryService {
         existingCategory.setName(category.getName());
         existingCategory.setSlug(Slug.makeSlug(category.getName()));
         existingCategory.setImage(category.getImage());
+        existingCategory.setUpdatedAt(new Date());
         return categoryRepository.save(existingCategory);
     }
 
