@@ -1,17 +1,31 @@
 package com.example.project.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Entity
-@Table(name = "products")
-public class Product {
+@Table(name = "products",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = "slug"), @UniqueConstraint(columnNames = "name")
+        })
+public class Product extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull
+    @Size(max = 100)
     private String name;
+    @NotNull
     private String slug;
+    @NotNull
+    @Lob
     private String description;
+    @NotNull
     private float price;
+    @NotNull
     private int quantity;
 
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
@@ -84,5 +98,25 @@ public class Product {
 
     public void setSubCategory(SubCategory subCategory) {
         this.subCategory = subCategory;
+    }
+
+    @Override
+    public Date getCreatedAt() {
+        return super.getCreatedAt();
+    }
+
+    @Override
+    public void setCreatedAt(Date createdAt) {
+        super.setCreatedAt(createdAt);
+    }
+
+    @Override
+    public Date getUpdatedAt() {
+        return super.getUpdatedAt();
+    }
+
+    @Override
+    public void setUpdatedAt(Date updatedAt) {
+        super.setUpdatedAt(updatedAt);
     }
 }

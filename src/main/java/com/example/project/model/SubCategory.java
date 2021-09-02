@@ -7,10 +7,13 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Entity
-@Table(name = "subcategories")
-public class SubCategory {
+@Table(name = "subcategories", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "slug"), @UniqueConstraint(columnNames = "name")
+})
+public class SubCategory extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -76,5 +79,25 @@ public class SubCategory {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    @Override
+    public Date getCreatedAt() {
+        return super.getCreatedAt();
+    }
+
+    @Override
+    public void setCreatedAt(Date createdAt) {
+        super.setCreatedAt(createdAt);
+    }
+
+    @Override
+    public Date getUpdatedAt() {
+        return super.getUpdatedAt();
+    }
+
+    @Override
+    public void setUpdatedAt(Date updatedAt) {
+        super.setUpdatedAt(updatedAt);
     }
 }

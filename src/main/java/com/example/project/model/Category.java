@@ -3,10 +3,13 @@ package com.example.project.model;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Entity
-@Table(name = "categories")
-public class Category {
+@Table(name = "categories", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "slug"), @UniqueConstraint(columnNames = "name")
+})
+public class Category extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -60,5 +63,25 @@ public class Category {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    @Override
+    public Date getCreatedAt() {
+        return super.getCreatedAt();
+    }
+
+    @Override
+    public void setCreatedAt(Date createdAt) {
+        super.setCreatedAt(createdAt);
+    }
+
+    @Override
+    public Date getUpdatedAt() {
+        return super.getUpdatedAt();
+    }
+
+    @Override
+    public void setUpdatedAt(Date updatedAt) {
+        super.setUpdatedAt(updatedAt);
     }
 }
