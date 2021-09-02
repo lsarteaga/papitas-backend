@@ -27,6 +27,9 @@ public class SubCategoryService {
         subCategory.setCreatedAt(LocalDateTime.now());
         subCategory.setUpdatedAt(LocalDateTime.now());
         subCategory.setCategory(category);
+        if (subCategory.getImage().isEmpty()) {
+            subCategory.setImage("https://www.pexels.com/photo/two-glasses-with-beverage-and-straws-104509/");
+        }
         return subCategoryRepository.save(subCategory);
     }
 
@@ -49,7 +52,9 @@ public class SubCategoryService {
                 .orElseThrow(() -> new ResourceNotFoundException("Subcategory not found with id: " + id));
         existingSubCategory.setName(subCategory.getName());
         existingSubCategory.setSlug(Slug.makeSlug(subCategory.getName()));
-        existingSubCategory.setImage(subCategory.getImage());
+        if (!subCategory.getImage().isEmpty()) {
+            existingSubCategory.setImage(subCategory.getImage());
+        }
         existingSubCategory.setUpdatedAt(LocalDateTime.now());
         existingSubCategory.setCategory(category);
         return subCategoryRepository.save(existingSubCategory);

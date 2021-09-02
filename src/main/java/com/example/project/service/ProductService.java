@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -28,6 +27,9 @@ public class ProductService {
         product.setCreatedAt(LocalDateTime.now());
         product.setUpdatedAt(LocalDateTime.now());
         product.setSubCategory(subCategory);
+        if (product.getImage().isEmpty()) {
+            product.setImage("https://www.pexels.com/photo/two-glasses-with-beverage-and-straws-104509/");
+        }
         return productRepository.save(product);
     }
 
@@ -55,6 +57,9 @@ public class ProductService {
         existingProduct.setDescription(product.getDescription());
         existingProduct.setPrice(product.getPrice());
         existingProduct.setQuantity(product.getQuantity());
+        if (!product.getImage().isEmpty()) {
+            existingProduct.setImage(product.getImage());
+        }
         return productRepository.save(existingProduct);
     }
 

@@ -31,6 +31,8 @@ public class Product extends AuditModel {
     @NotNull
     private int quantity;
 
+    private String image;
+
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "subcategory_id", referencedColumnName = "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -40,12 +42,13 @@ public class Product extends AuditModel {
     public Product() {
     }
 
-    public Product(String name, String slug, String description, float price, int quantity) {
+    public Product(String name, String slug, String description, float price, int quantity, String image) {
         this.name = name;
         this.slug = slug;
         this.description = description;
         this.price = price;
         this.quantity = quantity;
+        this.image = image;
     }
 
     public Long getId() {
@@ -94,6 +97,14 @@ public class Product extends AuditModel {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public SubCategory getSubCategory() {
