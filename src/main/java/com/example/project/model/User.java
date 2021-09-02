@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -93,22 +94,22 @@ public class User extends AuditModel {
     }
 
     @Override
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return super.getCreatedAt();
     }
 
     @Override
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         super.setCreatedAt(createdAt);
     }
 
     @Override
-    public Date getUpdatedAt() {
+    public LocalDateTime getUpdatedAt() {
         return super.getUpdatedAt();
     }
 
     @Override
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(LocalDateTime updatedAt) {
         super.setUpdatedAt(updatedAt);
     }
 }

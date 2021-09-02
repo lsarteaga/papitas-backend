@@ -1,9 +1,13 @@
 package com.example.project.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "products",
@@ -21,15 +25,16 @@ public class Product extends AuditModel {
     @NotNull
     private String slug;
     @NotNull
-    @Lob
     private String description;
     @NotNull
     private float price;
     @NotNull
     private int quantity;
 
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "subcategory_id", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "subcategory_id", referencedColumnName = "id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private SubCategory subCategory;
 
     public Product() {
@@ -100,22 +105,22 @@ public class Product extends AuditModel {
     }
 
     @Override
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return super.getCreatedAt();
     }
 
     @Override
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         super.setCreatedAt(createdAt);
     }
 
     @Override
-    public Date getUpdatedAt() {
+    public LocalDateTime getUpdatedAt() {
         return super.getUpdatedAt();
     }
 
     @Override
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(LocalDateTime updatedAt) {
         super.setUpdatedAt(updatedAt);
     }
 }

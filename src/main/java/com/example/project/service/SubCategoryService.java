@@ -9,7 +9,7 @@ import com.example.project.utility.Slug;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -24,8 +24,8 @@ public class SubCategoryService {
         Category category = categoryRepository.findById(category_id)
                         .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + category_id));
         subCategory.setSlug(Slug.makeSlug(subCategory.getName()));
-        subCategory.setCreatedAt(new Date());
-        subCategory.setUpdatedAt(new Date());
+        subCategory.setCreatedAt(LocalDateTime.now());
+        subCategory.setUpdatedAt(LocalDateTime.now());
         subCategory.setCategory(category);
         return subCategoryRepository.save(subCategory);
     }
@@ -50,7 +50,7 @@ public class SubCategoryService {
         existingSubCategory.setName(subCategory.getName());
         existingSubCategory.setSlug(Slug.makeSlug(subCategory.getName()));
         existingSubCategory.setImage(subCategory.getImage());
-        existingSubCategory.setUpdatedAt(new Date());
+        existingSubCategory.setUpdatedAt(LocalDateTime.now());
         existingSubCategory.setCategory(category);
         return subCategoryRepository.save(existingSubCategory);
     }
