@@ -35,13 +35,12 @@ public class Product extends AuditModel {
     public Product() {
     }
 
-    public Product(String name, String slug, String description, float price, int quantity, SubCategory subCategory) {
+    public Product(String name, String slug, String description, float price, int quantity) {
         this.name = name;
         this.slug = slug;
         this.description = description;
         this.price = price;
         this.quantity = quantity;
-        this.subCategory = subCategory;
     }
 
     public Long getId() {

@@ -30,8 +30,8 @@ public class SubCategoryService {
         return subCategoryRepository.save(subCategory);
     }
 
-    public List<SubCategory> findByCategoryId(Long id) {
-        return subCategoryRepository.findByCategoryId(id);
+    public List<SubCategory> findByCategoryId(Long category_id) {
+        return subCategoryRepository.findByCategoryId(category_id);
     }
 
     public SubCategory findByIdAndCategoryId(Long id, Long category_id) {

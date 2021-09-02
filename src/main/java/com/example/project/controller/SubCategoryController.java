@@ -24,8 +24,8 @@ public class SubCategoryController {
     }
 
     @GetMapping("/{category_id}/subcategories")
-    public List<SubCategory> findByCategoryId(@PathVariable(name = "category_id") Long id) {
-        return subCategoryService.findByCategoryId(id);
+    public List<SubCategory> findByCategoryId(@PathVariable(name = "category_id") Long category_id) {
+        return subCategoryService.findByCategoryId(category_id);
     }
 
     @GetMapping("/{category_id}/subcategories/{id}")
