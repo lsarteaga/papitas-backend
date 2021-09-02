@@ -34,11 +34,10 @@ public class SubCategory extends AuditModel {
     public SubCategory() {
     }
 
-    public SubCategory(String name, String slug, String image, Category category) {
+    public SubCategory(String name, String slug, String image) {
         this.name = name;
         this.slug = slug;
         this.image = image;
-        this.category = category;
     }
 
     public Long getId() {

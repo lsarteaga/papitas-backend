@@ -84,4 +84,5 @@ public class Category extends AuditModel {
     public void setUpdatedAt(Date updatedAt) {
         super.setUpdatedAt(updatedAt);
     }
+
 }
