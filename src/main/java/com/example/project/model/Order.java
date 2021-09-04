@@ -7,7 +7,6 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "orders")
@@ -31,10 +30,9 @@ public class Order extends AuditModel {
     public Order() {
     }
 
-    public Order(OrderStatus orderStatus, float total, User user) {
+    public Order(OrderStatus orderStatus, float total) {
         this.orderStatus = orderStatus;
         this.total = total;
-        this.user = user;
     }
 
     public Long getId() {

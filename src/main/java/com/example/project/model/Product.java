@@ -33,6 +33,18 @@ public class Product extends AuditModel {
 
     private String image;
 
+    @Enumerated
+    private ProductStatus productStatus;
+
+    @NotNull
+    private LocalDateTime expired_at;
+
+    @NotNull
+    private int sold;
+
+    @NotNull
+    private int available;
+
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "subcategory_id", referencedColumnName = "id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -42,13 +54,20 @@ public class Product extends AuditModel {
     public Product() {
     }
 
-    public Product(String name, String slug, String description, float price, int quantity, String image) {
+    public Product(String name, String slug, String description,
+                   float price, int quantity, String image,
+                   ProductStatus productStatus, LocalDateTime expired_at,
+                   int sold, int available) {
         this.name = name;
         this.slug = slug;
         this.description = description;
         this.price = price;
         this.quantity = quantity;
         this.image = image;
+        this.productStatus = productStatus;
+        this.expired_at = expired_at;
+        this.sold = sold;
+        this.available = available;
     }
 
     public Long getId() {
@@ -105,6 +124,38 @@ public class Product extends AuditModel {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public ProductStatus getProductStatus() {
+        return productStatus;
+    }
+
+    public void setProductStatus(ProductStatus productStatus) {
+        this.productStatus = productStatus;
+    }
+
+    public LocalDateTime getExpired_at() {
+        return expired_at;
+    }
+
+    public void setExpired_at(LocalDateTime expired_at) {
+        this.expired_at = expired_at;
+    }
+
+    public int getSold() {
+        return sold;
+    }
+
+    public void setSold(int sold) {
+        this.sold = sold;
+    }
+
+    public int getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(int available) {
+        this.available = available;
     }
 
     public SubCategory getSubCategory() {
