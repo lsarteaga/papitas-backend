@@ -1,5 +1,7 @@
 package com.example.project.model;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -10,7 +12,7 @@ import java.time.LocalDateTime;
 @Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(columnNames = "username"), @UniqueConstraint(columnNames = "email")
 })
-public class User extends AuditModel {
+public class UserModel extends AuditModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,21 +29,17 @@ public class User extends AuditModel {
     private String email;
 
     @NotNull
-    @Size(min = 8, max = 15)
+    @Size(min = 5)
     private String password;
 
-    @NotNull
-    private boolean isAdmin;
-
-    public User() {
+    public UserModel() {
     }
 
-    public User(String name, String username, String email, String password, boolean isAdmin) {
+    public UserModel(String name, String username, String email, String password, boolean isAdmin) {
         this.name = name;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.isAdmin = isAdmin;
     }
 
     public Long getId() {
@@ -82,14 +80,6 @@ public class User extends AuditModel {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public boolean isAdmin() {
-        return isAdmin;
-    }
-
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
     }
 
     @Override

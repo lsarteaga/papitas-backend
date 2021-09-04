@@ -25,7 +25,7 @@ public class Order extends AuditModel {
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
     @JsonIgnore
-    private User user;
+    private UserModel userModel;
 
     public Order() {
     }
@@ -59,12 +59,12 @@ public class Order extends AuditModel {
         this.total = total;
     }
 
-    public User getUser() {
-        return user;
+    public UserModel getUser() {
+        return userModel;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(UserModel userModel) {
+        this.userModel = userModel;
     }
 
     @Override
