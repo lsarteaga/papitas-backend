@@ -12,7 +12,6 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-//@RequestMapping("/categories")
 @CrossOrigin("*")
 public class CategoryController {
     @Autowired

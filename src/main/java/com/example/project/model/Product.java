@@ -34,11 +34,9 @@ public class Product extends AuditModel {
 
     private String image;
 
-    @NotNull
     @Enumerated
     private ProductStatus productStatus;
 
-    @NotNull
     @Enumerated
     private ProductExpired productExpired;
 
@@ -48,7 +46,8 @@ public class Product extends AuditModel {
     @NotNull
     private int available;
 
-    @NotNull private LocalDate expiredAt;
+    @NotNull
+    private LocalDate expiredAt;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "subcategory_id", referencedColumnName = "id", nullable = false)
@@ -59,9 +58,7 @@ public class Product extends AuditModel {
     public Product() {
     }
 
-    public Product(String name, String slug, String description, float price, int quantity,
-                   String image, ProductStatus productStatus, ProductExpired productExpired,
-                   int sold, int available, LocalDate expiredAt) {
+    public Product(String name, String slug, String description, float price, int quantity, String image, ProductStatus productStatus, ProductExpired productExpired, int sold, int available, LocalDate expiredAt) {
         this.name = name;
         this.slug = slug;
         this.description = description;

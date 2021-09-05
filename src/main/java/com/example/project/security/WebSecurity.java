@@ -14,7 +14,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -50,7 +49,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .cors().and()
                 .csrf().disable()
-                .authorizeRequests().antMatchers(HttpMethod.POST, LOGIN_URL).permitAll().and()
+                .authorizeRequests().antMatchers(HttpMethod.POST, LOGIN_URL, TESTING_URL).permitAll().and()
                 .authorizeRequests().antMatchers(HttpMethod.GET, "/api/**").permitAll()
                 .and().authorizeRequests().antMatchers(HttpMethod.POST, REGISTER_URL).permitAll()
                 .anyRequest().authenticated().and()
