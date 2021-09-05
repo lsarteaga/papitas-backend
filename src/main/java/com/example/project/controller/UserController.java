@@ -1,38 +1,47 @@
 package com.example.project.controller;
 
 import com.example.project.model.UserModel;
-import com.example.project.repository.UserRepository;
+import com.example.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 public class UserController {
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
+    //@PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/users")
-    public void saveUser(@Valid @RequestBody UserModel userModel) {
-        userModel.setPassword(bCryptPasswordEncoder.encode(userModel.getPassword()));
-        userModel.setCreatedAt(LocalDateTime.now());
-        userModel.setUpdatedAt(LocalDateTime.now());
-        userRepository.save(userModel);
+    public ResponseEntity<UserModel> saveUser(@Valid @RequestBody UserModel userModel) {
+        return new ResponseEntity<>(userService.saveUser(userModel), HttpStatus.CREATED);
     }
 
+    @PostMapping("/useradmin")
+    public ResponseEntity<UserModel> saveUserAdmin(@Valid @RequestBody UserModel userModel) {
+        return new ResponseEntity<>(userService.saveUserAdmin(userModel), HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/users")
     public List<UserModel> getAllUsers() {
-        return userRepository.findAll();
+        return userService.getAllUsers();
     }
 
-    @GetMapping("/users/{username}")
-    public UserModel getUser(@PathVariable(name = "username") String username) {
-        return userRepository.findByUsername(username);
+    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
+    @GetMapping("/users/{username}/find")
+    public ResponseEntity<UserModel> getUser(@PathVariable(name = "username") String username) {
+        return new ResponseEntity<>(userService.getByUsername(username), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
+    @GetMapping("/users/{id}")
+    public ResponseEntity<UserModel> getUserById(@PathVariable(name = "id") Long id) {
+        return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
     }
 }

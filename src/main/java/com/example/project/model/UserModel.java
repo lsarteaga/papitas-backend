@@ -1,12 +1,14 @@
 package com.example.project.model;
 
-import org.hibernate.validator.constraints.Length;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {
@@ -32,10 +34,17 @@ public class UserModel extends AuditModel {
     @Size(min = 5)
     private String password;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(	name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JsonIgnore
+    private Set<URole> roles;
+
     public UserModel() {
     }
 
-    public UserModel(String name, String username, String email, String password, boolean isAdmin) {
+    public UserModel(String name, String username, String email, String password) {
         this.name = name;
         this.username = username;
         this.email = email;
@@ -80,6 +89,14 @@ public class UserModel extends AuditModel {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Set<URole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<URole> roles) {
+        this.roles = roles;
     }
 
     @Override
