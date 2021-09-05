@@ -42,12 +42,12 @@ public class OrderService {
     }
 
     public Order getOrder(Long user_id, Long id) {
-        return orderRepository.getOrder(user_id, id);
+        return orderRepository.findOrderByUserModelIdAndId(user_id, id);
     }
 
     public List<Order> getOrders(Long user_id) {
         userRepository.findById(user_id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + user_id));
-        return orderRepository.getUserOrders(user_id, OrderStatus.COMPLETE);
+        return orderRepository.findOrdersByUserModelIdAndOrderStatus(user_id, OrderStatus.COMPLETE);
     }
 }

@@ -34,6 +34,10 @@ public class DetailService {
         detail.setOrder(order);
         detail.setProductName(product.getName());
         detail.setUnitPrice(product.getPrice());
+        if (detail.getQuantity() > product.getAvailable()) {
+            throw new RuntimeException("la cantidad de producto supera al stock disponible");
+        }
+        detail.setTotal(product.getPrice() * detail.getQuantity());
         // updating stock
         product.setSold(product.getSold() + detail.getQuantity());
         product.setAvailable(product.getAvailable() - detail.getQuantity());
@@ -57,8 +61,12 @@ public class DetailService {
         existingDetail.setQuantity(detail.getQuantity());
         existingDetail.setUpdatedAt(LocalDateTime.now());
         existingDetail.setProductName(product.getName());
-        existingDetail.setTotal(detail.getTotal());
+        existingDetail.setTotal(product.getPrice() * detail.getQuantity());
         existingDetail.setUnitPrice(product.getPrice());
+        if (detail.getQuantity() > product.getAvailable()) {
+            throw new RuntimeException("la cantidad de producto supera al stock disponible");
+        }
+
         // updating stock
         product.setSold(product.getSold() + detail.getQuantity());
         product.setAvailable(product.getAvailable() - detail.getQuantity());
@@ -71,7 +79,7 @@ public class DetailService {
     }
 
     public List<Detail> getDetails(Long order_id) {
-        return detailRepository.getDetails(order_id);
+        return detailRepository.getDetailsByOrderId(order_id);
     }
 
     public String deleteDetail(Long order_id, Long id) {

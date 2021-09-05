@@ -16,7 +16,6 @@ public class Order extends AuditModel {
     private Long id;
 
     @Enumerated
-    @NotNull
     private OrderStatus orderStatus;
 
     @NotNull
