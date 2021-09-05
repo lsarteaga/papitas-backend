@@ -1,5 +1,5 @@
 package com.example.project.security;
-import static com.example.project.security.Constants.LOGIN_URL;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +14,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import static com.example.project.security.Constants.*;
 
 @Configuration
 @EnableWebSecurity
@@ -47,7 +50,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .cors().and()
                 .csrf().disable()
-                .authorizeRequests().antMatchers(HttpMethod.POST, "/users","/useradmin", LOGIN_URL).permitAll()
+                .authorizeRequests().antMatchers(HttpMethod.POST, LOGIN_URL).permitAll().and()
+                .authorizeRequests().antMatchers(HttpMethod.GET, "/api/**").permitAll()
+                .and().authorizeRequests().antMatchers(HttpMethod.POST, REGISTER_URL).permitAll()
                 .anyRequest().authenticated().and()
                 .addFilterBefore(new JWTAuthenticationFilter(authenticationManager()),
                         UsernamePasswordAuthenticationFilter.class)

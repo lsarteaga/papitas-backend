@@ -7,6 +7,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -33,17 +34,21 @@ public class Product extends AuditModel {
 
     private String image;
 
+    @NotNull
     @Enumerated
     private ProductStatus productStatus;
 
     @NotNull
-    private LocalDateTime expired_at;
+    @Enumerated
+    private ProductExpired productExpired;
 
     @NotNull
     private int sold;
 
     @NotNull
     private int available;
+
+    @NotNull private LocalDate expiredAt;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "subcategory_id", referencedColumnName = "id", nullable = false)
@@ -54,10 +59,9 @@ public class Product extends AuditModel {
     public Product() {
     }
 
-    public Product(String name, String slug, String description,
-                   float price, int quantity, String image,
-                   ProductStatus productStatus, LocalDateTime expired_at,
-                   int sold, int available) {
+    public Product(String name, String slug, String description, float price, int quantity,
+                   String image, ProductStatus productStatus, ProductExpired productExpired,
+                   int sold, int available, LocalDate expiredAt) {
         this.name = name;
         this.slug = slug;
         this.description = description;
@@ -65,9 +69,10 @@ public class Product extends AuditModel {
         this.quantity = quantity;
         this.image = image;
         this.productStatus = productStatus;
-        this.expired_at = expired_at;
+        this.productExpired = productExpired;
         this.sold = sold;
         this.available = available;
+        this.expiredAt = expiredAt;
     }
 
     public Long getId() {
@@ -134,14 +139,6 @@ public class Product extends AuditModel {
         this.productStatus = productStatus;
     }
 
-    public LocalDateTime getExpired_at() {
-        return expired_at;
-    }
-
-    public void setExpired_at(LocalDateTime expired_at) {
-        this.expired_at = expired_at;
-    }
-
     public int getSold() {
         return sold;
     }
@@ -162,8 +159,24 @@ public class Product extends AuditModel {
         return subCategory;
     }
 
+    public LocalDate getExpiredAt() {
+        return expiredAt;
+    }
+
+    public void setExpiredAt(LocalDate expiredAt) {
+        this.expiredAt = expiredAt;
+    }
+
     public void setSubCategory(SubCategory subCategory) {
         this.subCategory = subCategory;
+    }
+
+    public ProductExpired getProductExpired() {
+        return productExpired;
+    }
+
+    public void setProductExpired(ProductExpired productExpired) {
+        this.productExpired = productExpired;
     }
 
     @Override
