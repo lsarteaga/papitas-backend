@@ -2,6 +2,7 @@ package com.example.project.service;
 
 import com.example.project.exception.ResourceNotFoundException;
 import com.example.project.model.Product;
+import com.example.project.model.ProductStatus;
 import com.example.project.model.SubCategory;
 import com.example.project.repository.ProductRepository;
 import com.example.project.repository.SubCategoryRepository;
@@ -27,6 +28,9 @@ public class ProductService {
         product.setCreatedAt(LocalDateTime.now());
         product.setUpdatedAt(LocalDateTime.now());
         product.setSubCategory(subCategory);
+        product.setProductStatus(ProductStatus.AVAILABLE);
+        product.setSold(0);
+        product.setAvailable(product.getQuantity());
         if (product.getImage().isEmpty()) {
             product.setImage("https://www.pexels.com/photo/two-glasses-with-beverage-and-straws-104509/");
         }
@@ -57,6 +61,10 @@ public class ProductService {
         existingProduct.setDescription(product.getDescription());
         existingProduct.setPrice(product.getPrice());
         existingProduct.setQuantity(product.getQuantity());
+        existingProduct.setSold(0);
+        existingProduct.setAvailable(product.getQuantity());
+        existingProduct.setProductStatus(ProductStatus.AVAILABLE);
+        existingProduct.setExpired_at(product.getExpired_at());
         if (!product.getImage().isEmpty()) {
             existingProduct.setImage(product.getImage());
         }
@@ -64,9 +72,9 @@ public class ProductService {
     }
 
     public String deleteProduct(Long subcategory_id, Long id) {
-        SubCategory subCategory = subCategoryRepository.findById(subcategory_id)
+        subCategoryRepository.findById(subcategory_id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with subcategory_id: " + subcategory_id));
-        Product existingProduct = productRepository.findById(id)
+        productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
         productRepository.deleteById(id);
         return "Product deleted";

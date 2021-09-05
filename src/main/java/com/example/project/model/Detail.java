@@ -5,6 +5,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,9 +15,13 @@ public class Detail extends AuditModel{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private int quantity;
+    @NotNull
     private float total;
+    @NotNull
     private float unitPrice;
+    @NotNull
     private String productName;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -28,6 +33,7 @@ public class Detail extends AuditModel{
     @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
     @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @JsonIgnore
     private Product product;
 
     public Detail() {
