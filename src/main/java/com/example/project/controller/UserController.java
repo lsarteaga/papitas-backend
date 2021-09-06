@@ -29,11 +29,13 @@ public class UserController {
         return new ResponseEntity<>(userService.saveUserAdmin(userModel), HttpStatus.CREATED);
     }
 
+    // new admin users (empty database)
     @PostMapping("/testing")
     public ResponseEntity<UserModel> saveUserTesting(@Valid @RequestBody UserModel userModel) {
         return new ResponseEntity<>(userService.saveUserAdmin(userModel), HttpStatus.CREATED);
     }
 
+    // users list
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("admin/users")
     public List<UserModel> getAllUsers() {
@@ -47,8 +49,8 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
-    @GetMapping("/users/{id}")
-    public ResponseEntity<UserModel> getUserById(@PathVariable(name = "id") Long id) {
-        return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
+    @GetMapping("/users/profile")
+    public ResponseEntity<UserModel> getUserProfile() {
+        return new ResponseEntity<>(userService.getUser(), HttpStatus.OK);
     }
 }
