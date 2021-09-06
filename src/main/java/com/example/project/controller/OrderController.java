@@ -46,6 +46,14 @@ public class OrderController {
         return new ResponseEntity<>(orderService.getOrder(getUserID(), id), HttpStatus.OK);
     }
 
+    // user orders report
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("admin/orders/user/{user_id}")
+    public List<Order> getOrders(@PathVariable(name = "user_id") Long user_id) {
+        return orderService.getOrders(user_id);
+    }
+
+    // user orders
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
     @GetMapping("/orders")
     public List<Order> getOrders() {
@@ -53,7 +61,7 @@ public class OrderController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/orders")
+    @GetMapping("admin/orders/all")
     public List<Order> getAllOrders() {
         return orderService.getAllOrders();
     }
