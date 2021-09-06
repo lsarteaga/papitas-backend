@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 public class DetailController {
 
     @Autowired
@@ -26,7 +27,7 @@ public class DetailController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
-    @PutMapping("/orders/{order_id}/products/{product_id}/details/{id}")
+    @PutMapping("/orders/{order_id}/products/{product_id}/details/{id}/update")
     public ResponseEntity<Detail> updateDetail(@Valid @RequestBody Detail detail,
                                                @PathVariable(name = "order_id") Long order_id,
                                                @PathVariable(name = "product_id") Long product_id,
@@ -41,7 +42,7 @@ public class DetailController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
-    @PutMapping("/orders/{order_id}/details/{id}/delete")
+    @DeleteMapping("/orders/{order_id}/details/{id}/delete")
     public ResponseEntity<String> deleteDetail(@PathVariable(name = "order_id") Long order_id,
                                                @PathVariable(name = "id") Long id) {
         return new ResponseEntity<>(detailService.deleteDetail(order_id, id), HttpStatus.OK);

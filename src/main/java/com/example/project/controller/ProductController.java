@@ -36,7 +36,7 @@ public class ProductController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("/admin/subcategories/{subcategory_id}/products/{id}")
+    @PutMapping("/admin/subcategories/{subcategory_id}/products/{id}/update")
     public ResponseEntity<Product> updateProduct(@Valid @RequestBody Product product,
                                                  @PathVariable(name = "subcategory_id") Long subcategory_id,
                                                  @PathVariable(name = "id") Long id) {
@@ -44,7 +44,7 @@ public class ProductController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/admin/subcategories/{subcategory_id}/products/{id}")
+    @DeleteMapping("/admin/subcategories/{subcategory_id}/products/{id}/delete")
     public ResponseEntity<String> deleteProduct(@PathVariable(name = "subcategory_id") Long subcategory_id,
                                                 @PathVariable(name = "id") Long id) {
         return new ResponseEntity<>(productService.deleteProduct(subcategory_id, id), HttpStatus.OK);

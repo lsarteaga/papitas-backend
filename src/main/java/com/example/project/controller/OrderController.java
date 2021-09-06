@@ -15,6 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 public class OrderController {
     @Autowired
     private OrderService orderService;

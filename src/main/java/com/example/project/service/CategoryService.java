@@ -39,7 +39,9 @@ public class CategoryService {
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + id));
         existingCategory.setName(category.getName());
         existingCategory.setSlug(Slug.makeSlug(category.getName()));
-        existingCategory.setImage(category.getImage());
+        if (!category.getImage().isEmpty()) {
+            existingCategory.setImage(category.getImage());
+        }
         existingCategory.setUpdatedAt(LocalDateTime.now());
         return categoryRepository.save(existingCategory);
     }

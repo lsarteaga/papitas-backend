@@ -36,7 +36,7 @@ public class SubCategoryController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PutMapping("/admin/categories/{category_id}/subcategories/{id}")
+    @PutMapping("/admin/categories/{category_id}/subcategories/{id}/update")
     public ResponseEntity<SubCategory> updateSubCategory(@Valid @RequestBody SubCategory subCategory,
                                                          @PathVariable(name = "category_id") Long category_id,
                                                          @PathVariable(name = "id") Long id) {
@@ -44,7 +44,7 @@ public class SubCategoryController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping("/admin/categories/{category_id}/subcategories/{id}")
+    @DeleteMapping("/admin/categories/{category_id}/subcategories/{id}/delete")
     public ResponseEntity<String> deleteSubCategory(@PathVariable(name = "category_id") Long category_id,
                                                     @PathVariable(name = "id") Long id) {
         return new ResponseEntity<>(subCategoryService.deleteSubCategory(category_id, id), HttpStatus.OK);
