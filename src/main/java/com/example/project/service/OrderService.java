@@ -50,4 +50,8 @@ public class OrderService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + user_id));
         return orderRepository.findOrdersByUserModelIdAndOrderStatus(user_id, OrderStatus.COMPLETE);
     }
+
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
+    }
 }

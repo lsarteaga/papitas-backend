@@ -117,4 +117,8 @@ public class ProductService {
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with subcategory_id: " + subcategory_id));
         return productRepository.findProductsByPriceBetweenAndSubCategoryId(minPrice, maxPrice, subcategory_id);
     }
+
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
 }

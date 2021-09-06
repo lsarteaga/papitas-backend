@@ -68,4 +68,11 @@ public class ProductController {
                                             @PathVariable(name = "max_price") Long maxPrice) {
         return productService.getProductsByPrice(subcategory_id, minPrice, maxPrice);
     }
+
+    // all products without filters
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/admin/products")
+    public List<Product> getAllProducts() {
+        return productService.getAllProducts();
+    }
 }

@@ -42,12 +42,14 @@ public class UserController {
         return userService.getAllUsers();
     }
 
+    // find 1 user
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
     @GetMapping("/users/{username}/find")
     public ResponseEntity<UserModel> getUser(@PathVariable(name = "username") String username) {
         return new ResponseEntity<>(userService.getByUsername(username), HttpStatus.OK);
     }
 
+    // see user profile
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
     @GetMapping("/users/profile")
     public ResponseEntity<UserModel> getUserProfile() {

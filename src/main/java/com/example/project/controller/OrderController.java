@@ -1,7 +1,6 @@
 package com.example.project.controller;
 
 import com.example.project.model.Order;
-import com.example.project.model.UserModel;
 import com.example.project.service.OrderService;
 import com.example.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +50,11 @@ public class OrderController {
     @GetMapping("/orders")
     public List<Order> getOrders() {
         return orderService.getOrders(getUserID());
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/orders")
+    public List<Order> getAllOrders() {
+        return orderService.getAllOrders();
     }
 }
