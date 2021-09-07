@@ -69,10 +69,15 @@ public class ProductController {
         return productService.getProductsByPrice(subcategory_id, minPrice, maxPrice);
     }
 
-    // all products without filters
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/admin/products")
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/admin/products/{id}")
+    public Product getProduct(@PathVariable(name = "id") Long id) {
+        return productService.getProduct(id);
     }
 }

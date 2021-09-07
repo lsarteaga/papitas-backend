@@ -10,11 +10,12 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findBySubCategoryId(Long subcategory_id);
     Product findByIdAndSubCategoryId(Long id, Long subcategory_id);
-    // sold out products
+    // productos agotados
     List<Product> findProductsByProductStatus(ProductStatus productStatus);
 
-    // expired products
+    // productos caducados
     List<Product> findProductsByProductExpired(ProductExpired productExpired);
 
+    // productos por rango de precios
     List<Product> findProductsByPriceBetweenAndSubCategoryId(float minPrice, float maxPrice, Long subcategory_id);
 }

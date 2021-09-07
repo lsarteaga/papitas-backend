@@ -25,7 +25,7 @@ public class UserController {
 
     // new admin users
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("admin/user-admin")
+    @PostMapping("/admin/user-admin")
     public ResponseEntity<UserModel> saveUserAdmin(@Valid @RequestBody UserModel userModel) {
         return new ResponseEntity<>(userService.saveUserAdmin(userModel), HttpStatus.CREATED);
     }
@@ -38,7 +38,7 @@ public class UserController {
 
     // users list
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("admin/users")
+    @GetMapping("/admin/users")
     public List<UserModel> getAllUsers() {
         return userService.getAllUsers();
     }

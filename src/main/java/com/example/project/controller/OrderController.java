@@ -35,7 +35,7 @@ public class OrderController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
-    @PutMapping("/orders/{id}")
+    @PutMapping("/orders/{id}/update")
     public ResponseEntity<Order> updateOrder(@Valid @RequestBody Order order,
                                              @PathVariable(name = "id") Long id) {
         return new ResponseEntity<>(orderService.updateOrder(order, getUserID(), id), HttpStatus.OK);

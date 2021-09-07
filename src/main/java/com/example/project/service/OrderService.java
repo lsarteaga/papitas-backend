@@ -24,6 +24,7 @@ public class OrderService {
     public Order saveOrder(Order order, Long user_id) {
         UserModel userModel = userRepository.findById(user_id)
                         .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + user_id));
+        order.setOrderStatus(OrderStatus.COMPLETE);
         order.setUser(userModel);
         order.setCreatedAt(LocalDateTime.now());
         order.setUpdatedAt(LocalDateTime.now());
