@@ -9,18 +9,13 @@ import com.example.project.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,8 +53,8 @@ public class UserService implements UserDetailsService {
         roles.add(role);
         userModel.setRoles(roles);
         userModel.setPassword(bCryptPasswordEncoder.encode(userModel.getPassword()));
-        userModel.setCreatedAt(LocalDateTime.now());
-        userModel.setUpdatedAt(LocalDateTime.now());
+        userModel.setCreated_at(new Date());
+        userModel.setUpdated_at(new Date());
         return userRepository.save(userModel);
     }
 
@@ -71,8 +66,8 @@ public class UserService implements UserDetailsService {
         roles.add(role);
         userModel.setRoles(roles);
         userModel.setPassword(bCryptPasswordEncoder.encode(userModel.getPassword()));
-        userModel.setCreatedAt(LocalDateTime.now());
-        userModel.setUpdatedAt(LocalDateTime.now());
+        userModel.setCreated_at(new Date());
+        userModel.setUpdated_at(new Date());
         return userRepository.save(userModel);
     }
 
@@ -80,11 +75,10 @@ public class UserService implements UserDetailsService {
     public List<UserModel> getAllUsers() {
         List<UserModel> totalUsers = userRepository.findAll();
         URole role = uRoleRepository.findByName("ROLE_ADMIN");
-        List<UserModel> filteredUsers = totalUsers
+        return totalUsers
                 .stream()
                 .filter(userModel -> !userModel.getRoles().contains(role))
                 .collect(Collectors.toList());
-        return filteredUsers;
     }
 
     public UserModel getByUsername(String username) {

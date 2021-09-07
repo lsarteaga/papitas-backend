@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -28,8 +29,8 @@ public class DetailService {
                 .orElseThrow(() -> new ResourceNotFoundException("Order not found with id: " + order_id));
         Product product = productRepository.findById(product_id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + order_id));
-        detail.setCreatedAt(LocalDateTime.now());
-        detail.setUpdatedAt(LocalDateTime.now());
+        detail.setCreated_at(new Date());
+        detail.setUpdated_at(new Date());
         detail.setProduct(product);
         detail.setOrder(order);
         detail.setProductName(product.getName());

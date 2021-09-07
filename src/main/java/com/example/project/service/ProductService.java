@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,8 +54,8 @@ public class ProductService {
         SubCategory subCategory = subCategoryRepository.findById(subcategory_id)
                 .orElseThrow(() -> new ResourceNotFoundException("SubCategory not found with id: " + subcategory_id));
         product.setSlug(Slug.makeSlug(product.getName()));
-        product.setCreatedAt(LocalDateTime.now());
-        product.setUpdatedAt(LocalDateTime.now());
+        product.setCreated_at(new Date());
+        product.setUpdated_at(new Date());
         product.setSubCategory(subCategory);
         product.setProductStatus(ProductStatus.AVAILABLE);
         product.setProductExpired(ProductExpired.VALID);
@@ -71,7 +72,7 @@ public class ProductService {
         Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
         existingProduct.setSlug(Slug.makeSlug(product.getName()));
-        existingProduct.setUpdatedAt(LocalDateTime.now());
+        existingProduct.setUpdated_at(new Date());
         existingProduct.setSubCategory(subCategory);
         existingProduct.setName(product.getName());
         existingProduct.setDescription(product.getDescription());
@@ -79,7 +80,7 @@ public class ProductService {
         existingProduct.setQuantity(product.getQuantity());
         existingProduct.setSold(0);
         existingProduct.setAvailable(product.getQuantity());
-        existingProduct.setExpiredAt(product.getExpiredAt());
+        existingProduct.setExpired_at(product.getExpired_at());
         existingProduct.setProductStatus(ProductStatus.AVAILABLE);
         existingProduct.setProductExpired(ProductExpired.VALID);
         if (!product.getImage().isEmpty()) {
@@ -117,14 +118,9 @@ public class ProductService {
 
     // filtrando para no mostrar los productos expirados y verificar el stock
     public List<Product> filteringProducts(List<Product> products) {
-        products
-                .stream()
-                .map(product -> {
-                    productRepository.save(editProduct(product));
-                    return product;
-                }).collect(Collectors.toList());
         return products
                 .stream()
+                .peek(product -> productRepository.save(editProduct(product)))
                 .filter(product -> product.getProductExpired() != ProductExpired.EXPIRED)
                 .collect(Collectors.toList());
     }
@@ -134,7 +130,7 @@ public class ProductService {
         if (product.getAvailable() == 0) {
             product.setProductStatus(ProductStatus.SOLD_OUT);
             product.setProductExpired(ProductExpired.NON_DATE);
-        } else if (product.getExpiredAt().isBefore(LocalDate.now())) {
+        } else if (product.getExpired_at().before(new Date())) {
             product.setProductExpired(ProductExpired.EXPIRED);
         }
         return productRepository.save(product);

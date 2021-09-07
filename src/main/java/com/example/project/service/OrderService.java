@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -26,8 +27,8 @@ public class OrderService {
                         .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + user_id));
         order.setOrderStatus(OrderStatus.COMPLETE);
         order.setUser(userModel);
-        order.setCreatedAt(LocalDateTime.now());
-        order.setUpdatedAt(LocalDateTime.now());
+        order.setCreated_at(new Date());
+        order.setUpdated_at(new Date());
         return orderRepository.save(order);
     }
 

@@ -23,8 +23,9 @@ public class ReportController {
     private ReportService reportService;
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/users")
+    @GetMapping(value = "/users")
     public ResponseEntity<String> getUsersReport() throws FileSystemNotFoundException, JRException, FileNotFoundException {
         return new ResponseEntity<>(reportService.generateUsersReport(), HttpStatus.OK);
     }
+
 }

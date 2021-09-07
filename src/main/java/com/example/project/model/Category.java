@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "categories", uniqueConstraints = {
@@ -66,22 +67,22 @@ public class Category extends AuditModel {
     }
 
     @Override
-    public LocalDateTime getCreatedAt() {
-        return super.getCreatedAt();
+    public Date getCreated_at() {
+        return super.getCreated_at();
     }
 
     @Override
-    public void setCreatedAt(LocalDateTime createdAt) {
-        super.setCreatedAt(createdAt);
+    public void setCreated_at(Date created_at) {
+        super.setCreated_at(created_at);
     }
 
     @Override
-    public LocalDateTime getUpdatedAt() {
-        return super.getUpdatedAt();
+    public Date getUpdated_at() {
+        return super.getUpdated_at();
     }
 
     @Override
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        super.setUpdatedAt(updatedAt);
+    public void setUpdated_at(Date updated_at) {
+        super.setUpdated_at(updated_at);
     }
 }

@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "products",
@@ -47,7 +48,7 @@ public class Product extends AuditModel {
     private int available;
 
     @NotNull
-    private LocalDate expiredAt;
+    private Date expired_at;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "subcategory_id", referencedColumnName = "id", nullable = false)
@@ -58,7 +59,9 @@ public class Product extends AuditModel {
     public Product() {
     }
 
-    public Product(String name, String slug, String description, float price, int quantity, String image, ProductStatus productStatus, ProductExpired productExpired, int sold, int available, LocalDate expiredAt) {
+    public Product(String name, String slug, String description,
+                   float price, int quantity, String image, ProductStatus productStatus,
+                   ProductExpired productExpired, int sold, int available, Date expired_at) {
         this.name = name;
         this.slug = slug;
         this.description = description;
@@ -69,7 +72,7 @@ public class Product extends AuditModel {
         this.productExpired = productExpired;
         this.sold = sold;
         this.available = available;
-        this.expiredAt = expiredAt;
+        this.expired_at = expired_at;
     }
 
     public Long getId() {
@@ -156,14 +159,6 @@ public class Product extends AuditModel {
         return subCategory;
     }
 
-    public LocalDate getExpiredAt() {
-        return expiredAt;
-    }
-
-    public void setExpiredAt(LocalDate expiredAt) {
-        this.expiredAt = expiredAt;
-    }
-
     public void setSubCategory(SubCategory subCategory) {
         this.subCategory = subCategory;
     }
@@ -176,23 +171,31 @@ public class Product extends AuditModel {
         this.productExpired = productExpired;
     }
 
-    @Override
-    public LocalDateTime getCreatedAt() {
-        return super.getCreatedAt();
+    public Date getExpired_at() {
+        return expired_at;
+    }
+
+    public void setExpired_at(Date expired_at) {
+        this.expired_at = expired_at;
     }
 
     @Override
-    public void setCreatedAt(LocalDateTime createdAt) {
-        super.setCreatedAt(createdAt);
+    public Date getCreated_at() {
+        return super.getCreated_at();
     }
 
     @Override
-    public LocalDateTime getUpdatedAt() {
-        return super.getUpdatedAt();
+    public void setCreated_at(Date created_at) {
+        super.setCreated_at(created_at);
     }
 
     @Override
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        super.setUpdatedAt(updatedAt);
+    public Date getUpdated_at() {
+        return super.getUpdated_at();
+    }
+
+    @Override
+    public void setUpdated_at(Date updated_at) {
+        super.setUpdated_at(updated_at);
     }
 }

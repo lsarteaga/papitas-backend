@@ -30,7 +30,7 @@ public class ReportService {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("createdBy", "ADMIN");
         JasperPrint print = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-        JasperExportManager.exportReportToPdfFile(print, path + "\\users.pdf" + LocalDate.now());
+        JasperExportManager.exportReportToPdfFile(print, path + "\\users-" + LocalDate.now().toString() + ".pdf");
         return "REPORT GENERATED";
     }
 }
