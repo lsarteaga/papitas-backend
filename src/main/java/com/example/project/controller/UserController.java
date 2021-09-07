@@ -17,40 +17,40 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    // register
+    // registro de usuarios
     @PostMapping("/register")
     public ResponseEntity<UserModel> saveUser(@Valid @RequestBody UserModel userModel) {
         return new ResponseEntity<>(userService.saveUser(userModel), HttpStatus.CREATED);
     }
 
-    // new admin users
+    // crear administradores
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/admin/user-admin")
     public ResponseEntity<UserModel> saveUserAdmin(@Valid @RequestBody UserModel userModel) {
         return new ResponseEntity<>(userService.saveUserAdmin(userModel), HttpStatus.CREATED);
     }
 
-    // new admin users (empty database)
+    // crear usuario admin (base de datos vacia)
     @PostMapping("/testing")
     public ResponseEntity<UserModel> saveUserTesting(@Valid @RequestBody UserModel userModel) {
         return new ResponseEntity<>(userService.saveUserAdmin(userModel), HttpStatus.CREATED);
     }
 
-    // users list
+    // obtener lista de usuarios registrados
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/admin/users")
     public List<UserModel> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    // find 1 user
+    // obtener un usuario en especifico
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
     @GetMapping("/users/{username}/find")
     public ResponseEntity<UserModel> getUser(@PathVariable(name = "username") String username) {
         return new ResponseEntity<>(userService.getByUsername(username), HttpStatus.OK);
     }
 
-    // see user profile
+    // obtener datos del usuario actualmente logeado
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
     @GetMapping("/users/profile")
     public ResponseEntity<UserModel> getUserProfile() {
