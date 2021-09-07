@@ -27,7 +27,7 @@ public class UserModel extends AuditModel {
 
     @Email
     @NotNull
-    @Size(max = 100)
+    @Size(max = 50)
     private String email;
 
     @NotNull
