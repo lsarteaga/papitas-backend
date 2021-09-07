@@ -27,24 +27,15 @@ public class DetailController {
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
-    @PutMapping("/orders/{order_id}/products/{product_id}/details/{id}/update")
-    public ResponseEntity<Detail> updateDetail(@Valid @RequestBody Detail detail,
-                                               @PathVariable(name = "order_id") Long order_id,
-                                               @PathVariable(name = "product_id") Long product_id,
-                                               @PathVariable(name = "id") Long id) {
-        return new ResponseEntity<>(detailService.updateDetail(detail, order_id, product_id, id), HttpStatus.OK);
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
     @GetMapping("/orders/{order_id}/details")
     public List<Detail> getDetails(@PathVariable(name = "order_id") Long order_id) {
         return detailService.getDetails(order_id);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
-    @DeleteMapping("/orders/{order_id}/details/{id}/delete")
-    public ResponseEntity<String> deleteDetail(@PathVariable(name = "order_id") Long order_id,
-                                               @PathVariable(name = "id") Long id) {
-        return new ResponseEntity<>(detailService.deleteDetail(order_id, id), HttpStatus.OK);
+    @GetMapping("/orders/{order_id}/details/{id}")
+    public Detail getDetail(@PathVariable(name = "order_id") Long order_id,
+                            @PathVariable(name = "id") Long id) {
+        return detailService.getDetail(order_id, id);
     }
 }

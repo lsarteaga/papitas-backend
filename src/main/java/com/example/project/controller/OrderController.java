@@ -23,44 +23,41 @@ public class OrderController {
     @Autowired
     private UserService userService;
 
+    // obtener el id del usuario actualmente logeado
     public Long getUserID() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return userService.getByUsername(authentication.getName()).getId();
     }
 
+    // los administradores y usuarios pueden crear ordenes
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
     @PostMapping("/orders")
     public ResponseEntity<Order> saveOrder(@Valid @RequestBody Order order) {
         return new ResponseEntity<>(orderService.saveOrder(order, getUserID()), HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
-    @PutMapping("/orders/{id}/update")
-    public ResponseEntity<Order> updateOrder(@Valid @RequestBody Order order,
-                                             @PathVariable(name = "id") Long id) {
-        return new ResponseEntity<>(orderService.updateOrder(order, getUserID(), id), HttpStatus.OK);
-    }
-
+    // ruta para obtener una orden del usuario actualmente logeado
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
     @GetMapping("/orders/{id}")
     public ResponseEntity<Order> getOrder(@PathVariable(name = "id") Long id) {
         return new ResponseEntity<>(orderService.getOrder(getUserID(), id), HttpStatus.OK);
     }
 
-    // user orders report
+    // ruta para obtener todas las ordenes de un usuario
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("admin/orders/user/{user_id}")
     public List<Order> getOrders(@PathVariable(name = "user_id") Long user_id) {
         return orderService.getOrders(user_id);
     }
 
-    // user orders
+    // ruta para obtener todas las ordenes del usuario actualmente logeado
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
     @GetMapping("/orders")
     public List<Order> getOrders() {
         return orderService.getOrders(getUserID());
     }
 
+    // ruta para obtener todas las ordenes
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("admin/orders/all")
     public List<Order> getAllOrders() {

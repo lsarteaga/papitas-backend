@@ -31,17 +31,6 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    public Order updateOrder(Order order, Long user_id, Long id) {
-        userRepository.findById(user_id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + user_id));
-        Order existingOrder = orderRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Order not found with id: " + id));
-        existingOrder.setUpdatedAt(LocalDateTime.now());
-        existingOrder.setTotal(order.getTotal());
-        existingOrder.setOrderStatus(order.getOrderStatus());
-        return orderRepository.save(existingOrder);
-    }
-
     public Order getOrder(Long user_id, Long id) {
         return orderRepository.findOrderByUserModelIdAndId(user_id, id);
     }
@@ -49,9 +38,10 @@ public class OrderService {
     public List<Order> getOrders(Long user_id) {
         userRepository.findById(user_id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + user_id));
-        return orderRepository.findOrdersByUserModelIdAndOrderStatus(user_id, OrderStatus.COMPLETE);
+        return orderRepository.findOrdersByUserModelId(user_id);
     }
 
+    // obtener todas las ordenes sin filtros
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
