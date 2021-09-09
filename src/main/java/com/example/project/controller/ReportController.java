@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.FileNotFoundException;
 import java.nio.file.FileSystemNotFoundException;
@@ -26,6 +23,13 @@ public class ReportController {
     @GetMapping(value = "/users")
     public ResponseEntity<String> getUsersReport() throws FileSystemNotFoundException, JRException, FileNotFoundException {
         return new ResponseEntity<>(reportService.generateUsersReport(), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping(value = "/users/{user_id}/orders")
+    public ResponseEntity<String> getUserOrdersReport(@PathVariable(name = "user_id") Long user_id)
+            throws FileSystemNotFoundException, JRException, FileNotFoundException {
+        return new ResponseEntity<>(reportService.generateUserOrdersReport(user_id), HttpStatus.OK);
     }
 
 }

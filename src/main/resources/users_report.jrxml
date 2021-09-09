@@ -77,7 +77,7 @@
                 <textElement textAlignment="Center">
                     <font size="14" isBold="true"/>
                 </textElement>
-                <text><![CDATA[Id]]></text>
+                <text><![CDATA[Cod. Cliente]]></text>
             </staticText>
             <staticText>
                 <reportElement mode="Opaque" x="111" y="0" width="111" height="20" forecolor="#006699"

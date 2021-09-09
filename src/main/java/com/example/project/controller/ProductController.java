@@ -50,6 +50,13 @@ public class ProductController {
         return new ResponseEntity<>(productService.deleteProduct(subcategory_id, id), HttpStatus.OK);
     }
 
+    @GetMapping("/api/subcategories/{subcategory_id}/products/{min_price}/{max_price}/price")
+    public List<Product> getProductsByPrice(@PathVariable(name = "subcategory_id") Long subcategory_id,
+                                            @PathVariable(name = "min_price") Long minPrice,
+                                            @PathVariable(name = "max_price") Long maxPrice) {
+        return productService.getProductsByPrice(subcategory_id, minPrice, maxPrice);
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/admin/products/sold-out")
     public List<Product> getSoldOutProducts() {
@@ -60,13 +67,6 @@ public class ProductController {
     @GetMapping("/admin/products/expired")
     public List<Product> getExpiredProducts() {
         return productService.getExpiredProducts();
-    }
-
-    @GetMapping("/api/subcategories/{subcategory_id}/products/{min_price}/{max_price}/price")
-    public List<Product> getProductsByPrice(@PathVariable(name = "subcategory_id") Long subcategory_id,
-                                            @PathVariable(name = "min_price") Long minPrice,
-                                            @PathVariable(name = "max_price") Long maxPrice) {
-        return productService.getProductsByPrice(subcategory_id, minPrice, maxPrice);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
