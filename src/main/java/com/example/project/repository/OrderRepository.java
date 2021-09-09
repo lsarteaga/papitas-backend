@@ -1,7 +1,6 @@
 package com.example.project.repository;
 
 import com.example.project.model.Order;
-import com.example.project.model.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

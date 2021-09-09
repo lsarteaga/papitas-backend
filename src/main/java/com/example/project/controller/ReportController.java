@@ -32,4 +32,24 @@ public class ReportController {
         return new ResponseEntity<>(reportService.generateUserOrdersReport(user_id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping(value = "/products")
+    public ResponseEntity<String> getProductsReport()
+            throws FileSystemNotFoundException, JRException, FileNotFoundException {
+        return new ResponseEntity<>(reportService.generateProductsReport(), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping(value = "/products/expired")
+    public ResponseEntity<String> getExpiredProductsReport()
+            throws FileSystemNotFoundException, JRException, FileNotFoundException {
+        return new ResponseEntity<>(reportService.generateExpiredProductsReport(), HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping(value = "/details")
+    public ResponseEntity<String> getDetailsReport()
+            throws FileSystemNotFoundException, JRException, FileNotFoundException {
+        return new ResponseEntity<>(reportService.generateDetailsReport(), HttpStatus.OK);
+    }
 }

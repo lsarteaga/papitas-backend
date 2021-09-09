@@ -55,4 +55,8 @@ public class DetailService {
     public Detail getDetail(Long order_id, Long id) {
         return detailRepository.findByOrderIdAndId(order_id, id);
     }
+
+    public List<Detail> getAllDetails() {
+        return detailRepository.findAll();
+    }
 }
