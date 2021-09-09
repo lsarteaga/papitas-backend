@@ -19,6 +19,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,7 +36,7 @@ public class ReportService {
 
     @Autowired
     private DetailService detailService;
-
+    // PATHS USADOS PARA ENCONTRAR EL ARCHIVO DE JASPER REPORTS
     final String path = "c:\\report";
     final String usersPath = "classpath:users_report.jrxml";
     final String usersOrdersPath = "classpath:user_orders_report.jrxml";
@@ -43,12 +44,16 @@ public class ReportService {
     final String detailsPath = "classpath:details_report.jrxml";
     final String expiredProductsPath = "classpath:expired_products_report.jrxml";
 
-    public String generateUsersReport() throws FileSystemNotFoundException, JRException, FileNotFoundException {
+    // TODOS LOS USUARIOS REGISTRADOS, SI RECIBE EL PARAMETRO OPCIONAL SE GENERA EL REPORTE
+    public List<UserModel> generateUsersReport(Optional<Long> value)
+            throws FileSystemNotFoundException, JRException, FileNotFoundException {
         List<UserModel> users = userService.getAllUsers();
-        return generateReport(usersPath, users, "users-");
+        if (value.isPresent())
+            generateReport(usersPath, users, "users-");
+        return users;
     }
-
-    public String generateUserOrdersReport(Long user_id) throws FileSystemNotFoundException,
+    // TODOS LAS ORDENES DE UN USUARIO, SI RECIBE EL PARAMETRO OPCIONAL SE GENERA EL REPORTE
+    public List<UserOrderReport> generateUserOrdersReport(Long user_id, Optional<Long> value) throws FileSystemNotFoundException,
             JRException, FileNotFoundException {
         List<Order> orders = orderService.getOrders(user_id);
         List<UserOrderReport> userOrderReports = orders
@@ -62,21 +67,29 @@ public class ReportService {
                     return userOrderReport;
                 })
                 .collect(Collectors.toList());
-
-        return generateReport(usersOrdersPath, userOrderReports, "user-orders-");
+        if (value.isPresent())
+            generateReport(usersOrdersPath, userOrderReports, "user-orders-");
+        return userOrderReports;
     }
-
-    public String generateProductsReport() throws JRException, FileNotFoundException {
+    // TODOS LOS PRODUCTOS (INVENTARIO), SI RECIBE EL PARAMETRO OPCIONAL SE GENERA EL REPORTE
+    public List<Product> generateProductsReport(Optional<Long> value)
+            throws JRException, FileNotFoundException {
         List<Product> products = productService.getAllProducts();
-        return generateReport(productsPath, products, "products-");
+        if (value.isPresent())
+            generateReport(productsPath, products, "products-");
+        return products;
     }
-
-    public String generateExpiredProductsReport() throws JRException, FileNotFoundException {
+    // TODOS LOS PRODUCTOS EXPIRADOS, SI RECIBE EL PARAMETRO OPCIONAL SE GENERA EL REPORTE
+    public List<Product> generateExpiredProductsReport(Optional<Long> value)
+            throws JRException, FileNotFoundException {
         List<Product> products = productService.getExpiredProducts();
-        return generateReport(expiredProductsPath, products, "expired-products-");
+        if (value.isPresent())
+            generateReport(expiredProductsPath, products, "expired-products-");
+        return products;
     }
-
-    public String generateDetailsReport() throws JRException, FileNotFoundException {
+    // TODOS LAS VENTAS REALIZADAS, SI RECIBE EL PARAMETRO OPCIONAL SE GENERA EL REPORTE
+    public List<DetailReport> generateDetailsReport(Optional<Long> value)
+            throws JRException, FileNotFoundException {
         List<Detail> details = detailService.getAllDetails();
         List<DetailReport> detailReportList = details
                 .stream()
@@ -91,10 +104,21 @@ public class ReportService {
                     return detailReport;
                 })
                 .collect(Collectors.toList());
-        return generateReport(detailsPath, detailReportList, "details-");
+        if (value.isPresent())
+            generateReport(detailsPath, detailReportList, "details-");
+        return detailReportList;
     }
-
-    public String generateReport(String jrxmlPath, List<?> models, String prefix) throws FileNotFoundException, JRException {
+    /*
+    Funcion para generar un reporte, recibe el path del archivo jrxml, la lista de modelos
+    y el prefijo de como se va a guardar el pdf,
+    1) encuentra el archivo jrml
+    2) genera el datasource a partir de los modelos provistos
+    3) se pone un MAP<,> para identificar quien creo el pdf
+    4) se llenan los datos al reporte, segun el formato del archivo jrxml
+    5) se guarda el pdf generado en el path especificado + prefijo + fecha generacion + .pdf
+     */
+    public void generateReport(String jrxmlPath, List<?> models, String prefix)
+            throws FileNotFoundException, JRException {
         File file = ResourceUtils.getFile(jrxmlPath);
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(models);
@@ -102,6 +126,5 @@ public class ReportService {
         parameters.put("createdBy", "ADMIN");
         JasperPrint print = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
         JasperExportManager.exportReportToPdfFile(print, path + "\\" + prefix + LocalDate.now().toString() + ".pdf");
-        return "SUCCESS";
     }
 }

@@ -62,7 +62,9 @@ public class ProductService {
         if (product.getImage().isEmpty()) {
             product.setImage("https://www.pexels.com/photo/two-glasses-with-beverage-and-straws-104509/");
         }
-        return productRepository.save(product);
+        //return productRepository.save(product);
+        // para probar el reporte de los productos caducados
+        return editProduct(product);
     }
     public Product updateProduct(Product product, Long subcategory_id, Long id) {
         SubCategory subCategory = subCategoryRepository.findById(subcategory_id)
@@ -84,7 +86,8 @@ public class ProductService {
         if (!product.getImage().isEmpty()) {
             existingProduct.setImage(product.getImage());
         }
-        return productRepository.save(existingProduct);
+        //return productRepository.save(existingProduct);
+        return editProduct(existingProduct);
     }
     public String deleteProduct(Long subcategory_id, Long id) {
         subCategoryRepository.findById(subcategory_id)

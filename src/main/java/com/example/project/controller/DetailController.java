@@ -38,4 +38,10 @@ public class DetailController {
                             @PathVariable(name = "id") Long id) {
         return detailService.getDetail(order_id, id);
     }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/admin/orders/details")
+    public List<Detail> getDetails() {
+        return detailService.getAllDetails();
+    }
 }
