@@ -13,11 +13,15 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+// clase que gestiona la firma, el cifrado y descifrado de los tokens
 public class TokenProvider {
 
     public TokenProvider() {
     }
-
+    /* se genera el token segun los roles que posea el usuario (ADMIN - USER)
+    se cifra con el algoritmo hs256, y se firma con la clave secreta de la aplicacion
+    se le agrega un tiempo de vida util
+     */
     public static String generateToken(Authentication authentication) {
         final String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -32,6 +36,9 @@ public class TokenProvider {
                 .compact();
     }
 
+    /* se decodifica el token para verificar si es del usuario y posee los permisos
+    para acceder al recurso
+     */
     public static UsernamePasswordAuthenticationToken getAuthentication(final String token,
                                                                         final UserDetails userDetails) {
         final JwtParser jwtParser = Jwts.parser().setSigningKey(SUPER_SECRET_KEY);
@@ -44,6 +51,7 @@ public class TokenProvider {
         return new UsernamePasswordAuthenticationToken(userDetails, "", authorities);
     }
 
+    // obtiene el username
     public static String getUserName(final String token) {
         final JwtParser jwtParser = Jwts.parser().setSigningKey(SUPER_SECRET_KEY);
         final Jws<Claims> claimsJws = jwtParser.parseClaimsJws(token);

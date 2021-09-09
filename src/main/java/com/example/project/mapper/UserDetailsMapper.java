@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.HashSet;
 import java.util.Set;
 
+// Sirve para tener el usuario logeado con su username, password y roles
 public class UserDetailsMapper {
 
     public static UserDetails build(UserModel userModel) {

@@ -25,6 +25,7 @@ import static com.example.project.security.Constants.*;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
+// clase que controla toda la seguridad de la aplicacion
 public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
@@ -47,6 +48,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
+        /*
+        1) se habiltan los cors
+        2) se permite rutas de logeo, testing, /api/**, registro
+        3) las demas rutas si tienen filtros de seguridad (roles de usuario)
+        4) se define que las solicitudes http pasen por 2 filtros, autenticacion y autoriacion
+         */
+
         httpSecurity
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .cors().and()
@@ -67,6 +75,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
+        /* habilitacion de CORS en la aplicacion cliente con los metodos http generales (get, post, put, delete)
+        Se define los headers permitidos, (USADOS PARA QUE EL CLIENTE PUEDA LEER EL JWT Y POSTERIORMENTE AUTENTICARSE)
+        SE PERMITE QUE LA RUTA INICIAL /** NO ESTE BLOQUEADA AL CLIENTE (para probar)
+         */
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));

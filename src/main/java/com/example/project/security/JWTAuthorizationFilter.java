@@ -18,6 +18,7 @@ import java.io.IOException;
 import static com.example.project.security.Constants.HEADER_AUTHORIZATION_KEY;
 import static com.example.project.security.Constants.TOKEN_BEARER_PREFIX;
 
+// clase que controla la autoriacion a los recuros (rutas protegidas)
 public class JWTAuthorizationFilter extends OncePerRequestFilter {
 
     @Autowired
@@ -28,10 +29,15 @@ public class JWTAuthorizationFilter extends OncePerRequestFilter {
                                     HttpServletResponse httpServletResponse, FilterChain filterChain)
             throws ServletException, IOException {
         String authorizationHeader = httpServletRequest.getHeader(HEADER_AUTHORIZATION_KEY);
+        // si el token esta incorrecto se dispara la ecepcion
         if (StringUtils.isEmpty(authorizationHeader) || !authorizationHeader.startsWith(TOKEN_BEARER_PREFIX)) {
             filterChain.doFilter(httpServletRequest, httpServletResponse);
             return;
         }
+        /* caso contrario el token se lo decodifica
+        se verifica que corresponda al usuario que lo esta enviando
+        de ser asi, pasa el filtro y es autorisado al recurso que haya solicitado
+         */
         final String token =authorizationHeader.replace(TOKEN_BEARER_PREFIX + " ", "");
         String userName = TokenProvider.getUserName(token);
         UserDetails user = userService.loadUserByUsername(userName);

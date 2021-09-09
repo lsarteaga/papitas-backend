@@ -28,6 +28,7 @@ public class UserService implements UserDetailsService {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    // encuentra el usuario en la base de datos
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserModel userModel = userRepository.findByUsername(username);
@@ -36,17 +37,18 @@ public class UserService implements UserDetailsService {
         }
         return UserDetailsMapper.build(userModel);
     }
-
+    // obtener el ID usuario actualmente logeado
     public Long getUserID() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return getByUsername(authentication.getName()).getId();
     }
-
+    // obtener al usuario actualmente logeado
     public UserModel getUser() {
         return userRepository.findById(getUserID())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + getUserID()));
     }
 
+    // guardar un usuario
     public UserModel saveUser(UserModel userModel) {
         URole role = uRoleRepository.findByName("ROLE_USER");
         Set<URole> roles = new HashSet<>();
@@ -57,7 +59,7 @@ public class UserService implements UserDetailsService {
         userModel.setUpdated_at(new Date());
         return userRepository.save(userModel);
     }
-
+    // guardar un usuario admin
     public UserModel saveUserAdmin(UserModel userModel) {
         URole role = uRoleRepository.findByName("ROLE_ADMIN");
         Set<URole> roles = new HashSet<>();
@@ -71,7 +73,7 @@ public class UserService implements UserDetailsService {
         return userRepository.save(userModel);
     }
 
-    // users list
+    // obtener la lista de usuarios
     public List<UserModel> getAllUsers() {
         List<UserModel> totalUsers = userRepository.findAll();
         URole role = uRoleRepository.findByName("ROLE_ADMIN");
@@ -81,6 +83,7 @@ public class UserService implements UserDetailsService {
                 .collect(Collectors.toList());
     }
 
+    // obtener un usuario por su 'username'
     public UserModel getByUsername(String username) {
         return userRepository.findByUsername(username);
     }
