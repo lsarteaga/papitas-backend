@@ -30,12 +30,6 @@ public class Detail extends AuditModel{
     @JsonIgnore
     private Order order;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
-    private Product product;
-
     public Detail() {
     }
 
@@ -44,11 +38,6 @@ public class Detail extends AuditModel{
         this.total = total;
         this.unitPrice = unitPrice;
         this.productName = productName;
-    }
-
-    @PreRemove
-    public void nullify() {
-        product.setId(null);
     }
 
     public Long getId() {
@@ -97,14 +86,6 @@ public class Detail extends AuditModel{
 
     public void setOrder(Order order) {
         this.order = order;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
     }
 
     @Override

@@ -30,7 +30,6 @@ public class DetailService {
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + order_id));
         detail.setCreated_at(new Date());
         detail.setUpdated_at(new Date());
-        detail.setProduct(product);
         detail.setOrder(order);
         detail.setProductName(product.getName());
         detail.setUnitPrice(product.getPrice());

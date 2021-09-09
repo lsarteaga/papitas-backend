@@ -27,7 +27,7 @@ public class ReportService {
 
     final String path = "c:\\report";
     final String usersPath = "classpath:users_report.jrxml";
-    final String usersOrdersPath = "classpath:user_orders_report.jrxml";
+    final String usersOrdersPath = "classpath:userss_orders_report.jrxml";
     final String productsPath = "classpath:products_report.jrxml";
     final String ordersPath = "classpath:orders_report.jrxml";
     final String expiredProductsPath = "classpath:products_expired_report.jrxml";
