@@ -80,4 +80,10 @@ public class ProductController {
     public Product getProduct(@PathVariable(name = "id") Long id) {
         return productService.getProduct(id);
     }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping("/admin/subcategory/{subcategory_id}/products")
+    public List<Product> getProductsBySubCategoryId(@PathVariable(name = "subcategory_id") Long subcategory_id) {
+        return productService.findBySubCategoryIdAdmin(subcategory_id);
+    }
 }

@@ -112,6 +112,11 @@ public class ProductService {
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
     }
 
+    public List<Product> findBySubCategoryIdAdmin(Long subcategory_id) {
+        List<Product> products = productRepository.findBySubCategoryId(subcategory_id);
+        return filteringProducts(products);
+    }
+
     // METODOS PARA FILTRAR
 
     // filtrando para no mostrar los productos expirados y verificar el stock
