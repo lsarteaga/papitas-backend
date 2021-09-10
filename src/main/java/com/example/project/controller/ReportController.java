@@ -28,6 +28,8 @@ public class ReportController {
     // REPORTE DE USUARIOS REGISTRADOS
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping(value = "/users")
+    //http://localhost:8080/admin/reports/users?value=1 --> desde servidor
+    //http://localhost:8080/admin/reports/users
     public ResponseEntity<List<UserModel>> getUsersReport(
             @RequestParam(name = "value", required = false) Optional<Long> value)
             throws FileSystemNotFoundException, JRException, FileNotFoundException {

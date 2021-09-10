@@ -28,7 +28,7 @@ public class OrderController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return userService.getByUsername(authentication.getName()).getId();
     }
-
+    //http://localhost:8080/orders
     // los administradores y usuarios pueden crear ordenes
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_USER')")
     @PostMapping("/orders")
